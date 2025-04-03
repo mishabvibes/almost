@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",                    // Updated from ES2017 to a more modern target
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",         // Updated from "node" for better modern tooling support
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",                        // Kept for absolute imports
+    "paths": {
+      "@/*": ["./src/*"],                  // Maintained your custom path mapping
+      "@components/*": ["./src/components/*"],  // Added for better organization
+      "@utils/*": ["./src/utils/*"]        // Added for utility functions
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "forceConsistentCasingInFileNames": true,  // Added for cross-platform consistency
+    "noUnusedLocals": true,                   // Added to catch unused variables
+    "noUnusedParameters": true,              // Added to catch unused parameters
+    "types": ["node", "jest"],               // Added common type definitions
+    "allowSyntheticDefaultImports": true     // Added for better import compatibility
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/**/*",                             // Kept both src/**/* and **/*.ts[x]
+    "types/**/*"                           // Added for custom type definitions
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",                                // Added common build output directory
+    ".next"                                // Added Next.js build directory
+  ]
+}
