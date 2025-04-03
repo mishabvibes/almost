@@ -1,50 +1,45 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from "../../../../lib/db"
-import PushToken from "../../../../models/BoxHolderToken";
-
+import connectToDatabase from "../../../../lib/db";
+import mongoose from "mongoose";
 
 export async function POST(req) {
   try {
     // Connect to MongoDB
     await connectToDatabase();
-    console.log("requised");
+    console.log("Request received");
 
-
-    console.log("Received request to save push token");
     const body = await req.json(); // Parse the request body
-    const expoPushToken = body.expoPushToken; // Extract the token from the 'expoPushToken' field
-    console.log("Expo Push Token:", expoPushToken);
+    console.log("Request Body:", body);
 
-    if (!expoPushToken) {
-      console.log("No push token provided");
+    if (!body || Object.keys(body).length === 0) {
+      console.log("No data provided in request body");
       return NextResponse.json(
-        { success: false, message: "Push token is required" },
+        { success: false, message: "Request body is required" },
         { status: 400 }
       );
     }
 
-    // Save to database (example with MongoDB)
-    // const result = await PushToken.insertOne({
-    //   expoPushToken, // Save the token string directly
-    //   createdAt: new Date(),
-    // });
+    // Access the raw MongoDB collection
+    const db = mongoose.connection.db;
+    const collection = db.collection("BoxHoldersTokens"); // Changed to BoxHoldersTokens
 
-
-
-    // Save or update push token (avoid duplicates due to unique constraint)
-    await PushToken.findOneAndUpdate(
-      { expoPushToken }, // Find by token
-      { expoPushToken }, // Update or set the token
-      { upsert: true, new: true } // Upsert: insert if not found, update if found
+    // Insert or update the entire request body
+    const result = await collection.updateOne(
+      { expoPushToken: body.expoPushToken }, // Find by expoPushToken (if it exists)
+      { $set: body }, // Set the entire request body
+      { upsert: true } // Upsert: insert if not found, update if found
     );
 
-    console.log("Push token saved to database");
+    console.log("Data saved to database:", result);
     return NextResponse.json({
       success: true,
-      message: "Push token saved successfully",
+      message: "Data saved successfully",
+      matchedCount: result.matchedCount,
+      modifiedCount: result.modifiedCount,
+      upsertedId: result.upsertedId,
     });
   } catch (error) {
-    console.error("Error saving push token:", error);
+    console.error("Error saving data:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

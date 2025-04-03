@@ -6,7 +6,7 @@ export async function POST(req) {
   try {
     // Connect to MongoDB
     await connectToDatabase();
-    console.log("Request received");
+    console.log("Request received for SubscriberTokens");
 
     const body = await req.json(); // Parse the request body
     console.log("Request Body:", body);
@@ -21,7 +21,7 @@ export async function POST(req) {
 
     // Access the raw MongoDB collection
     const db = mongoose.connection.db;
-    const collection = db.collection("PushTokens");
+    const collection = db.collection("SubscriberTokens"); // New collection: SubscriberTokens
 
     // Insert or update the entire request body
     const result = await collection.updateOne(
@@ -30,16 +30,16 @@ export async function POST(req) {
       { upsert: true } // Upsert: insert if not found, update if found
     );
 
-    console.log("Data saved to database:", result);
+    console.log("Data saved to SubscriberTokens:", result);
     return NextResponse.json({
       success: true,
-      message: "Data saved successfully",
+      message: "Data saved successfully to SubscriberTokens",
       matchedCount: result.matchedCount,
       modifiedCount: result.modifiedCount,
       upsertedId: result.upsertedId,
     });
   } catch (error) {
-    console.error("Error saving data:", error);
+    console.error("Error saving data to SubscriberTokens:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

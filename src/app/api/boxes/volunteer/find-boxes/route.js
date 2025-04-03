@@ -1,26 +1,27 @@
 import connectToDatabase from "@/lib/db"; // Adjust path
 import Box from "@/models/Box"; // Adjust path
 import Donation from "@/models/Donation"; // For consistency
+import { getPaymentStatus } from "@/lib/paymentStatus";
 
 
 // Helper function to determine payment status
-function getPaymentStatus(lastPayment) {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth(); // 0-11
+// function getPaymentStatus(lastPayment) {
+//   const now = new Date();
+//   const currentYear = now.getFullYear();
+//   const currentMonth = now.getMonth(); // 0-11
 
-  if (!lastPayment) {
-    return "Pending";
-  }
+//   if (!lastPayment) {
+//     return "Pending";
+//   }
 
-  const lastPaymentDate = new Date(lastPayment);
-  const paymentYear = lastPaymentDate.getFullYear();
-  const paymentMonth = lastPaymentDate.getMonth();
+//   const lastPaymentDate = new Date(lastPayment);
+//   const paymentYear = lastPaymentDate.getFullYear();
+//   const paymentMonth = lastPaymentDate.getMonth();
 
-  // Paid if last payment is in the current month/year
-  const isPaid = paymentYear === currentYear && paymentMonth === currentMonth;
-  return isPaid ? "Paid" : "Pending";
-}
+//   // Paid if last payment is in the current month/year
+//   const isPaid = paymentYear === currentYear && paymentMonth === currentMonth;
+//   return isPaid ? "Paid" : "Pending";
+// }
 
 export async function GET(request) {
   try {
@@ -57,9 +58,11 @@ export async function GET(request) {
           .select("amount razorpayPaymentId createdAt")
           .lean();
 
+          const { status, period } = getPaymentStatus(box.lastPayment);
         return {
           ...box,
-          paymentStatus, // "Paid" or "Pending"
+          paymentStatus: status,
+          currentPeriod: period, // "Paid" or "Pending"
           latestPayment: latestDonation
             ? {
                 amount: latestDonation.amount,
