@@ -50,9 +50,9 @@ export async function POST(req) {
       console.log("Recurring donation recorded:", donation);
 
       const fromNumber = `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
-      const toNumber = subscription.phoneNumber.startsWith("+")
-        ? `whatsapp:${subscription.phoneNumber}`
-        : `whatsapp:+91${subscription.phoneNumber}`;
+      const toNumber = subscription.phone.startsWith("+")
+        ? `whatsapp:${subscription.phone}`
+        : `whatsapp:+91${subscription.phone}`;
       try {
         await twilioClient.messages.create({
           body: `Payment of ₹${amount} for your ${subscription.period} donation subscription received! Thank you for your support.`,
@@ -69,4 +69,4 @@ export async function POST(req) {
     console.error("Webhook error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-}
+} 

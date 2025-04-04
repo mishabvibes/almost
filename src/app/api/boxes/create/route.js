@@ -2,18 +2,16 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Box from "@/models/Box";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 
 export async function POST(req) {
   try {
     console.log("🔹 Received request to /api/boxes/create");
 
     // Get session user details
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // const session = await getServerSession(authOptions);
+    // if (!session) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
     await dbConnect();
 
