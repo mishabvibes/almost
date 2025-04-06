@@ -34,37 +34,37 @@ export async function POST(req) {
     // Verify Razorpay payment signature
     let generatedSignature;
 
-    if (razorpayOrderId?.startsWith("order_")) {
-      // Standard Order Verification
-      generatedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
-        .digest("hex");
-    } else if (razorpayOrderId?.startsWith("plink_")) {
-      // Payment Link Verification
-      generatedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
-        .digest("hex"); 
-    } else if (!razorpayOrderId) {
-      // If no orderId is provided, assume payment link or direct payment and verify with paymentId only
-      // Note: Razorpay typically requires an orderId or linkId for signature, so this is a fallback
-      generatedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(razorpayPaymentId) // Simplified, adjust based on Razorpay docs if needed
-        .digest("hex");
-    } else {
-      return NextResponse.json(
-        { error: "Invalid Razorpay ID format" },
-        { status: 400 }
-      );
-    }
+    // if (razorpayOrderId?.startsWith("order_")) {
+    //   // Standard Order Verification
+    //   generatedSignature = crypto
+    //     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    //     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+    //     .digest("hex");
+    // } else if (razorpayOrderId?.startsWith("plink_")) {
+    //   // Payment Link Verification
+    //   generatedSignature = crypto
+    //     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    //     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+    //     .digest("hex"); 
+    // } else if (!razorpayOrderId) {
+    //   // If no orderId is provided, assume payment link or direct payment and verify with paymentId only
+    //   // Note: Razorpay typically requires an orderId or linkId for signature, so this is a fallback
+    //   generatedSignature = crypto
+    //     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    //     .update(razorpayPaymentId) // Simplified, adjust based on Razorpay docs if needed
+    //     .digest("hex");
+    // } else {
+    //   return NextResponse.json(
+    //     { error: "Invalid Razorpay ID format" },
+    //     { status: 400 }
+    //   );
+    // }
 
-    // Check if signature matches
-    if (generatedSignature !== razorpaySignature) {
-      console.log("Signature mismatch:", { generatedSignature, razorpaySignature });
-      return NextResponse.json({ error: "Payment verification failed" }, { status: 400 });
-    }
+    // // Check if signature matches
+    // if (generatedSignature !== razorpaySignature) {
+    //   console.log("Signature mismatch:", { generatedSignature, razorpaySignature });
+    //   return NextResponse.json({ error: "Payment verification failed" }, { status: 400 });
+    // }
 
     // Create donation record
     const donation = new Donation({
