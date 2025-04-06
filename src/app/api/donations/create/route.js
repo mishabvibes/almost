@@ -44,8 +44,8 @@ export async function POST(req) {
       // Payment Link Verification
       generatedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(razorpayPaymentId + "|" + razorpayOrderId)
-        .digest("hex");
+        .update(${razorpayOrderId}|${razorpayPaymentId})
+        .digest("hex"); 
     } else if (!razorpayOrderId) {
       // If no orderId is provided, assume payment link or direct payment and verify with paymentId only
       // Note: Razorpay typically requires an orderId or linkId for signature, so this is a fallback
