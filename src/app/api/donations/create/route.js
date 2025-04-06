@@ -38,13 +38,13 @@ export async function POST(req) {
       // Standard Order Verification
       generatedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(razorpayOrderId + "|" + razorpayPaymentId)
+        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
         .digest("hex");
     } else if (razorpayOrderId?.startsWith("plink_")) {
       // Payment Link Verification
       generatedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(${razorpayOrderId}|${razorpayPaymentId})
+        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
         .digest("hex"); 
     } else if (!razorpayOrderId) {
       // If no orderId is provided, assume payment link or direct payment and verify with paymentId only
