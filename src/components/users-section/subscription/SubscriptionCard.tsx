@@ -62,12 +62,21 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
         <div className="flex justify-between mb-4">
           <div className="text-gray-600 text-sm">
             <strong>Last Payment:</strong><br/>
-            {new Date(subscription.nextPaymentDue).toLocaleDateString('en-US', { 
+            {new Date(subscription.lastPaymentDate).toLocaleDateString('en-US', { 
               year: 'numeric', 
               month: 'short', 
               day: 'numeric' 
             })}
           </div>
+{/*          
+          <div className="text-gray-600 text-sm">
+            <p>Next Due On:</p>
+            {new Date(subscription.nextPaymentDue).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'short', 
+              day: 'numeric' 
+            })}
+          </div> */}
           
           <div className="text-right text-sm">
             <span className={`px-2 py-1 rounded-full text-xs font-medium $text-sm ${paymentStatus === "paid" 

@@ -162,18 +162,30 @@ export default function SubscriptionPage() {
     setIsLoading(true);
     startLoading();
     try {
-      const searchResponse = await fetch(`/api/subscriptions/search?phone=${encodeURIComponent(phone)}`);
+      const searchResponse = await fetch(`/api/subscriptions/search?phone=${encodeURIComponent(phone)}`,{
+        headers: {
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+        },
+      });
       const searchData = await searchResponse.json();
       if (!searchResponse.ok) throw new Error(searchData.message || "Failed to search subscriptions");
 
       const { donorId, subscriptionId } = searchData;
 
-      const detailsResponse = await fetch(`/api/subscriptions/details?donorId=${donorId}&subscriptionId=${subscriptionId}`);
+      const detailsResponse = await fetch(`/api/subscriptions/details?donorId=${donorId}&subscriptionId=${subscriptionId}`,{
+        headers: {
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+        },
+      });
       const detailsData = await detailsResponse.json();
       if (!detailsResponse.ok) throw new Error(detailsData.message || "Failed to fetch subscription details");
 
       const historyResponse = await fetch(
-        `/api/donations/subhistory?subscriptionId=${subscriptionId}&page=${page}&limit=${itemsPerPage}`
+        `/api/donations/subhistory?subscriptionId=${subscriptionId}&page=${page}&limit=${itemsPerPage}`,{
+          headers: {
+            'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+          },
+        }
       );
       const history = await historyResponse.json();
       if (!historyResponse.ok) throw new Error(history.error || "Failed to fetch donation history");
@@ -205,7 +217,8 @@ export default function SubscriptionPage() {
               period: detailsData.subscription.period || "not fin",
               type: detailsData.subscription.method || "manual",
               donationType: detailsData.subscription.donationType || "General",
-              nextPaymentDue: detailsData.subscription.createdAt || "2025-04-15",
+              lastPaymentDate:detailsData.subscription.lastPaymentAt || "",
+              nextPaymentDue: detailsData.subscription.nextDueDate || "2025-04-15",
             }]
       );
 
@@ -273,7 +286,12 @@ export default function SubscriptionPage() {
         panchayat,
         period: plan.period,
         interval: 1,
-      });
+      },
+      {
+        headers: {
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+        },
+        });
       if (!response.data.planId) throw new Error("Plan ID not received from server");
       return response.data.planId;
     } catch (error: unknown) {
@@ -297,7 +315,9 @@ export default function SubscriptionPage() {
 
     const checkResponse = await fetch("/api/check-phone", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,
+        'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+      },
       body: JSON.stringify({ phone: phoneNumber, role: "Subscriber" }),
     });
     const checkData: { exists: boolean; error?: string } = await checkResponse.json();
@@ -324,7 +344,7 @@ export default function SubscriptionPage() {
   };
 
   const handlePayment = async (
-    e: React.FormEvent,
+    _e: React.FormEvent,
     formData: { fullName: string; location: string; amount: number; period: string; email: string },
     customPlan: { amount: number; period: string; interval: number }
   ) => {
@@ -333,6 +353,7 @@ export default function SubscriptionPage() {
       return;
     }
     try {
+      startLoading();
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         alert("Failed to load Razorpay SDK. Please try again.");
@@ -342,7 +363,10 @@ export default function SubscriptionPage() {
       const planId = await createPlan(customPlan, formData);
       if (!planId) throw new Error("Plan ID not received");
 
-      const { data } = await axios.post("/api/create-subscription", { planId, name: formData.fullName, amount: formData.amount, phone: phoneNumber, period: formData.period });
+      const { data } = await axios.post("/api/create-subscription", { planId, name: formData.fullName, amount: formData.amount, phone: phoneNumber, period: formData.period },{
+        headers: {
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+        }});
       if (data.error) throw new Error(data.details || data.error);
       const subscriptionId = data.subscriptionId;
       if (!subscriptionId) throw new Error("Subscription ID not received");
@@ -372,11 +396,16 @@ export default function SubscriptionPage() {
             razorpayOrderId: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             status: "active",
+          },{
+            headers: {
+              'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+            },
           });
-          startLoading();
+         
 
-          router.push(`/institute/success?donationId=${data.id}&amount=${formData.amount}&method=${"auto"}&name=${encodeURIComponent(formData.fullName)}&phone=${phoneNumber}&type=General&district=${district || "Other"}&panchayat=${panchayat || ""}&paymentId=${response.razorpay_payment_id}&orderId=${response.razorpay_order_id}`);
           stopLoading();
+          
+          router.push(`/institute/success?donationId=${data.id}&amount=${formData.amount}&method=${"auto"}&name=${encodeURIComponent(formData.fullName)}&phone=${phoneNumber}&type=General&district=${district || "Other"}&panchayat=${panchayat || ""}&paymentId=${response.razorpay_payment_id}&orderId=${"No orderID for auto payment"}`);
         },
         prefill: { contact: phoneNumber, name: formData.fullName },
         theme: { color: "#F37254" },
@@ -407,7 +436,9 @@ export default function SubscriptionPage() {
     try {
       const checkResponse = await fetch("/api/check-phone", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+         },
         body: JSON.stringify({ phone: phoneNumber, role: "Subscriber" }),
       });
 
@@ -434,7 +465,9 @@ export default function SubscriptionPage() {
 
       const orderResponse = await fetch("/api/donations/create-order", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" ,
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+        },
         body: JSON.stringify({ amount: formData.amount * 100 }),
       });
 
@@ -470,7 +503,9 @@ export default function SubscriptionPage() {
           startLoading();
           const saveResponse = await fetch("/api/subscriptions/new", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+              'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+             },
             body: JSON.stringify(subscriptionData),
           });
 
@@ -522,7 +557,9 @@ export default function SubscriptionPage() {
     try {
       const response = await fetch("/api/check-phone", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+         },
         body: JSON.stringify({ phone: phoneNumber, role: "Subscriber" }),
       });
 
@@ -637,7 +674,9 @@ export default function SubscriptionPage() {
     try {
       const orderResponse = await fetch("/api/donations/create-order", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+         },
         body: JSON.stringify({ amount: parseFloat(subscriptionData!.amount) * 100 }),
       });
 
@@ -673,7 +712,9 @@ export default function SubscriptionPage() {
 
           const saveResponse = await fetch("/api/donations/new", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" ,
+              'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+            },
             body: JSON.stringify(paymentData),
           });
 
@@ -692,9 +733,12 @@ export default function SubscriptionPage() {
           setPaymentHistory([newDonation, ...paymentHistory]);
           setPaymentStatus("paid");
 
+          stopLoading()
+
           router.push(`/subscription/success?donationId=${subscriptionData!._id}&amount=${saveData.amount}&name=${encodeURIComponent(donor!.name)}&phone=${donor!.phone}&type=${subscription.type}&district=${subscriptionData!.district || "Other"}&panchayat=${subscriptionData!.panchayat || ""}&paymentId=${response.razorpay_payment_id}&orderId=${response.razorpay_order_id}`);
         },
         prefill: { name: donor!.name, email: donor!.email, contact: donor!.phone },
+        
         theme: { color: "#3B82F6" },
       };
 
@@ -715,19 +759,38 @@ export default function SubscriptionPage() {
 
   const handleCancelManualPayment = async (subscription: SubType) => {
     toast(
-      <div className="text-center p-1">
-        <svg className="w-12 h-12 mx-auto text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      <div className="p-6 bg-white rounded-lg shadow-lg max-w-xs w-full text-center">
+        {/* Icon */}
+        <svg
+          className="w-12 h-12 mx-auto text-red-600 mb-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
         </svg>
-        <h2 className="text-lg font-semibold mb-2">Cancel Subscription?</h2>
-        <p className="text-sm text-gray-600 mb-3">This action cannot be undone.</p>
-        <div className="flex justify-center gap-3">
+    
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">Cancel Subscription?</h2>
+    
+        {/* Message */}
+        <p className="text-sm text-gray-600 mb-6">This action cannot be undone.</p>
+    
+        {/* Buttons */}
+        <div className="flex justify-center gap-4">
           <button
             onClick={() => toast.dismiss()}
-            className="px-4 py-1.5 bg-gray-200 text-gray-800 rounded-md text-sm font-medium hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 transition-colors"
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:opacity-50 transition-colors min-w-[90px]"
             disabled={isLoading}
           >
-            Keep
+            NO
           </button>
           <button
             onClick={async () => {
@@ -736,6 +799,9 @@ export default function SubscriptionPage() {
               try {
                 const response = await fetch(`/api/subscriptions/cancel?subscriptionId=${subscription._id}`, {
                   method: "DELETE",
+                  headers: {
+                    'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+                  },
                 });
     
                 if (!response.ok) {
@@ -745,37 +811,61 @@ export default function SubscriptionPage() {
     
                 await signOut({ redirect: false });
                 router.push("/subscription");
-                toast.success("Subscription canceled successfully");
+                toast.success("Subscription canceled successfully", {
+                  position: "top-center",
+                  autoClose: 3000,
+                });
               } catch (error) {
                 console.error("Error canceling subscription:", error);
-                toast.error("Failed to cancel subscription");
+                toast.error("Failed to cancel subscription", {
+                  position: "top-center",
+                  autoClose: 3000,
+                });
               } finally {
                 stopLoading();
                 setIsLoading(false);
                 toast.dismiss();
               }
             }}
-            className="px-4 py-1.5 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:ring-2 focus:ring-red-500 transition-colors flex items-center"
+            className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 transition-colors flex items-center justify-center min-w-[90px]"
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Canceling...
               </>
-            ) : "Cancel Subscription"}
+            ) : (
+              "Yes"
+            )}
           </button>
         </div>
       </div>,
       {
         autoClose: false,
         closeButton: false,
-        position: "top-center",
-        className: "max-w-xs shadow-lg rounded-lg",
-        style: { background: "white" }
+        position: "top-center", // Overridden by custom CSS
+        className: "fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50",
+        style: { background: "transparent", padding: 0 },
       }
     );
   };
@@ -791,23 +881,30 @@ export default function SubscriptionPage() {
     const subscriptionId = subscription.razorpaySubscriptionId;
 
     toast(
-      <div className="text-center">
-        <p className="text-lg font-semibold mb-4">
+      <div className="p-6 bg-white rounded-lg shadow-lg max-w-md w-full text-center">
+        {/* Title */}
+        <p className="text-xl font-semibold text-gray-900 mb-3">
           Confirm Auto Payment Cancellation
         </p>
-        <p className="mb-4">
-          Are you certain you wish to cancel your automatic payment? This action
-          cannot be undone.
+    
+        {/* Message */}
+        <p className="text-sm text-gray-600 mb-6">
+          Are you certain you wish to cancel your automatic payment? This action cannot be undone.
         </p>
+    
+        {/* Buttons */}
         <div className="flex justify-center gap-4">
           <button
             onClick={async () => {
               setIsLoading(true);
               try {
-                const response = await axios.post("/api/cancel-subscription", {
-                  subscriptionId,
-                });
-  
+                const response = await axios.post("/api/cancel-subscription",{ subscriptionId }, // Data payload
+                  {
+                    headers: {
+                      'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+                    },
+                  });
+    
                 if (response.data.success === true) {
                   await signOut({ redirect: false });
                   router.push("/subscription");
@@ -821,7 +918,7 @@ export default function SubscriptionPage() {
                     position: "top-center",
                   });
                   setShowSuccessMessage(true);
-  
+    
                   setUserSubscriptions(
                     userSubscriptions.filter((sub) => sub.id !== subscription.id)
                   );
@@ -850,25 +947,26 @@ export default function SubscriptionPage() {
                 toast.dismiss();
               }
             }}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+            className="px-5 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 transition-colors min-w-[100px]"
             disabled={isLoading}
           >
-            Yes, Cancel
+            Yes
           </button>
           <button
             onClick={() => toast.dismiss()}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+            className="px-5 py-2 bg-gray-200 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:opacity-50 transition-colors min-w-[100px]"
             disabled={isLoading}
           >
-            No, Keep Payment
+            No
           </button>
         </div>
       </div>,
       {
         autoClose: false,
         closeButton: false,
-        position: "top-center",
-        className: "max-w-md",
+        position: "top-center", // Will be overridden by custom CSS
+        className: "fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50",
+        style: { background: 'transparent', padding: 0 },
       }
     );
   };

@@ -23,13 +23,16 @@ const RegisterBox = () => {
     mobileNumber: "",
     secondaryMobileNumber: "",
     careOf: "",
-    registeredDate: "",
+
+
+
+    // registeredDate: "",
   });
 
   const requiredFields = [
     "serialNumber", "name", "houseName", "address", 
     "place", "area", "location", "district", "panchayath", 
-    "ward", "mahallu", "pincode", "mobileNumber", "registeredDate"
+    "ward", "mahallu", "pincode", "mobileNumber"
   ];
 
   const handleChange = (e) => {
@@ -37,6 +40,9 @@ const RegisterBox = () => {
   };
 
   const handleSubmit = async (e) => {
+
+    console.log(session);
+    
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -57,20 +63,22 @@ const RegisterBox = () => {
 
     try {
       // Validate date format
-      let formattedDate = new Date(formData.registeredDate);
-      if (isNaN(formattedDate.getTime())) {
-        setMessage("❌ Invalid date. Please select a valid date.");
-        setLoading(false);
-        return;
-      }
+      // let formattedDate = new Date(formData.registeredDate);
+      // if (isNaN(formattedDate.getTime())) {
+      //   setMessage("❌ Invalid date. Please select a valid date.");
+      //   setLoading(false);
+      //   return;
+      // }
 
       // Send data to the backend
       const response = await fetch("/api/boxes/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          'x-api-key': '9a4f2c8d7e1b5f3a9c2d8e7f1b4a5c3d',
+         },
         body: JSON.stringify({
           ...formData,
-          registeredDate: formattedDate.toISOString(),
+          // registeredDate: formattedDate.toISOString(),
         }),
       });
 
@@ -94,7 +102,12 @@ const RegisterBox = () => {
         mobileNumber: "",
         secondaryMobileNumber: "",
         careOf: "",
-        registeredDate: "",
+        agentId:session.user.id,
+        agentName:session.user.name,
+        agentPhone:session.user.phone,
+        agentEmail:session.user.email,
+        agentRole:session.user.role,
+        // registeredDate: "",
       });
     } catch (error) {
       setMessage(`❌ ${error.message}`);
@@ -107,7 +120,7 @@ const RegisterBox = () => {
   const sections = [
     {
       title: "Box Information",
-      fields: ["serialNumber", "registeredDate"]
+      fields: ["serialNumber"]
     },
     {
       title: "Personal Details",
@@ -185,7 +198,7 @@ const RegisterBox = () => {
               mobileNumber: "",
               secondaryMobileNumber: "",
               careOf: "",
-              registeredDate: "",
+              // registeredDate: "",
             })}
             className="px-6 py-2 mr-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
             disabled={loading}

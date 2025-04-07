@@ -4,23 +4,30 @@ export function getPaymentStatus(period, lastPaymentAt) {
   const now = new Date();
   const lastPaymentDate = new Date(lastPaymentAt);
 
+  // If lastPaymentDate is invalid, return "pending"
   if (isNaN(lastPaymentDate.getTime())) return "pending";
+
+  // Calculate the time difference in milliseconds
+  const timeDiff = now - lastPaymentDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Convert to days
 
   switch (period) {
     case "daily":
-      return now.toDateString() === lastPaymentDate.toDateString() ? "paid" : "pending";
+      // Valid for 1 day (same day as last payment)
+      return daysDiff < 1 ? "paid" : "pending";
+
     case "weekly":
-      const getWeekStart = (date) => {
-        const d = new Date(date);
-        d.setDate(d.getDate() - d.getDay());
-        d.setHours(0, 0, 0, 0);
-        return d;
-      };
-      return getWeekStart(now).getTime() === getWeekStart(lastPaymentDate).getTime() ? "paid" : "pending";
+      // Valid for 7 days from last payment
+      return daysDiff < 7 ? "paid" : "pending";
+
     case "monthly":
-      return now.getMonth() === lastPaymentDate.getMonth() && now.getFullYear() === lastPaymentDate.getFullYear() ? "paid" : "pending";
+      // Valid for 30 days from last payment
+      return daysDiff < 30 ? "paid" : "pending";
+
     case "yearly":
-      return now.getFullYear() === lastPaymentDate.getFullYear() ? "paid" : "pending";
+      // Valid for 360 days from last payment
+      return daysDiff < 360 ? "paid" : "pending";
+
     default:
       return "pending";
   }

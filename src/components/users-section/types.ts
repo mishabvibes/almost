@@ -47,6 +47,8 @@ export interface Payment {
   type: string;             // e.g., "General"
 }
 
+
+
 // Existing PaymentHistory for comparison
 export interface PaymentHistory {
   id: number;
@@ -83,9 +85,9 @@ export interface Subscription {
   period: "daily" | "weekly" | "monthly" | "quarterly" | "yearly";
   phoneNumber: string;
   nextPaymentDue: string;
-  createdAt?: string;
-  lastPaymentDate?: string;
-  status?: "active" | "paused" | "cancelled";
+  createdAt: string;
+  lastPaymentDate: string;
+  status: "active" | "paused" | "cancelled";
 }
 
 export interface User {

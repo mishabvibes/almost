@@ -18,7 +18,9 @@ async function handler(request) {
     const donor = await Donor.findById(donorId).lean();
     if (!donor) return NextResponse.json({ error: "Donor not found" }, { status: 404 });
 
-    const donations = await Donation.find({ subscriptionId }).sort({ createdAt: -1 }).lean();
+    const subscriptionObjectId = new mongoose.Types.ObjectId(subscriptionId);
+    
+    const donations = await Donation.find({ subscriptionId:subscriptionObjectId }).sort({ createdAt: -1 }).lean();
     const totalAmount = donations.reduce((sum, donation) => sum + (donation.amount || 0), 0);
 
     return NextResponse.json({
@@ -34,3 +36,4 @@ async function handler(request) {
 }
 
 export const GET = paymentStatusMiddleware(handler);
+
