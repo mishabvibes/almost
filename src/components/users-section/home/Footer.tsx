@@ -146,14 +146,18 @@ const Footer = () => {
           
           {/* Additional information */}
           <div className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-            <p>
+          <p>
               Designed with care for a better world. 
-              <Link href="/privacy-policy" className="text-indigo-600 dark:text-indigo-400 hover:underline ml-1">
+              <Link href="/privacypolicy" className="text-indigo-600 dark:text-indigo-400 hover:underline ml-1">
                 Privacy Policy
               </Link>
               <span className="mx-2">•</span>
-              <Link href="/terms" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+              <Link href="/termsandconditions" className="text-indigo-600 dark:text-indigo-400 hover:underline">
                 Terms of Service
+              </Link>
+              <span className="mx-2">•</span>
+              <Link href="/refundandreturnpolicy" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+                Refund and Return Policy
               </Link>
             </p>
           </div>
