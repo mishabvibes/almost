@@ -13,6 +13,7 @@ import { OtpVerification } from "@/components/users-section/subscription/OtpVeri
 import { UserDashboard } from "@/components/users-section/subscription/UserDashboard";
 import { BenefitsSection } from "@/components/users-section/subscription/BenefitsSection";
 import { Footer } from "@/components/users-section/subscription/Footer";
+import  PricingDetails  from "@/components/users-section/subscription/PricingDetails";
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { signIn, signOut } from "next-auth/react";
@@ -1065,6 +1066,7 @@ export default function SubscriptionPage() {
         </div>
       </section>
       <BenefitsSection />
+      <PricingDetails />
       <Footer />
     </>
   );
