@@ -104,7 +104,7 @@ export default function PaymentPage() {
             const callbackUrlWithQuery = `${validCallbackUrl}?${queryParams}`;
 
             console.log("Redirecting to:", callbackUrlWithQuery);
-            window.location.href = callbackUrlWithQuery;
+            window.open(callbackUrlWithQuery, '_self');
             alert("Payment successful! Redirecting...");
           } catch (error) {
             console.error("Payment error:", error.response?.status, error.response?.data);
