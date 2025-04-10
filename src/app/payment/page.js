@@ -42,17 +42,16 @@ export default function PaymentPage() {
       }
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Public key in .env
-        amount: Number(amount) * 100, // Convert to paise
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: Number(amount) * 100,
         currency: "INR",
         name: "Amal AIC",
         description: `Initial payment for subscription ${subscriptionId}`,
         subscription_id: subscriptionId,
         handler: async function (response) {
-          // Payment success callback
           try {
             const razorpayPaymentId = response.razorpay_payment_id;
-            const razorpaySubscriptionId = subscriptionId; // Use the subscriptionId from query params
+            const razorpaySubscriptionId = subscriptionId;
 
             const apiResponse = await axios.post(
               "/api/update-subscription-status",
@@ -98,14 +97,19 @@ export default function PaymentPage() {
               donationId: data.donationId || "",
             }).toString();
 
-            const validCallbackUrl = callbackUrl.startsWith("http") || callbackUrl.startsWith("yourapp://") 
-              ? callbackUrl 
-              : "yourapp://payment-callback"; // Fallback to a default scheme
+            const validCallbackUrl = callbackUrl.startsWith("http") || callbackUrl.startsWith("yourapp://")
+              ? callbackUrl
+              : "yourapp://payment-callback";
             const callbackUrlWithQuery = `${validCallbackUrl}?${queryParams}`;
 
             console.log("Redirecting to:", callbackUrlWithQuery);
-            window.open(callbackUrlWithQuery, '_self');
-            alert("Payment successful! Redirecting...");
+            window.location.href = callbackUrlWithQuery;
+
+            // Fallback if redirect fails
+            setTimeout(() => {
+              alert("Redirect failed. Please check your app or contact support.");
+              axios.post("/api/payment-fallback", { subscriptionId, status: "pending" });
+            }, 2000);
           } catch (error) {
             console.error("Payment error:", error.response?.status, error.response?.data);
             alert(`Payment failed: ${error.response?.data?.error || "Please try again later."}`);
@@ -118,8 +122,8 @@ export default function PaymentPage() {
         },
         theme: { color: "#10B981" },
         modal: {
-          confirm_close: true, // Prompt user if they try to close the payment modal
-          escape: true, // Allow escape key to close
+          confirm_close: true,
+          escape: true,
         },
       };
 
