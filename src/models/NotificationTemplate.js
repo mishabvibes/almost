@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+timport mongoose from "mongoose";
 
 const notificationTemplateSchema = new mongoose.Schema({
   template: { type: String, required: true },
