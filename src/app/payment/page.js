@@ -139,8 +139,34 @@ export default function PaymentPage() {
   }, [subscriptionId, amount, name, phone, district, panchayat, donationId, callbackUrl]);
 
   return (
-    <div>
-      <p>Processing payment...</p>
+    <div className="w-full h-screen flex items-center justify-center bg-gray-100 overflow-hidden p-4">
+      <div className="relative flex flex-col items-center gap-6 p-8 bg-white rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105">
+        {/* Animated Spinner */}
+        <div className="relative">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="absolute inset-0 w-16 h-16 border-4 border-blue-300 border-t-transparent rounded-full animate-[spin_2s_linear_infinite] opacity-50"></div>
+        </div>
+
+        {/* Processing Text with subtle animation */}
+        <div className="flex items-center gap-2">
+          <p className="text-lg font-semibold text-gray-800 animate-pulse">
+            Processing Payment
+          </p>
+          <span className="flex gap-1">
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+          </span>
+        </div>
+
+        {/* Subtle instruction */}
+        <p className="text-sm text-gray-500 animate-[fadeIn_1s_ease-in_forwards]">
+          Please wait while we process your transaction
+        </p>
+      </div>
+
+      {/* Background gradient animation */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-transparent to-blue-200 opacity-20 animate-[gradient_6s_ease_infinite] bg-[length:200%_200%]"></div>
     </div>
   );
 }
