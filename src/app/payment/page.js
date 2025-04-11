@@ -97,9 +97,9 @@ export default function PaymentPage() {
               donationId: data.donationId || "",
             }).toString();
 
-            const validCallbackUrl = callbackUrl.startsWith("http") || callbackUrl.startsWith("yourapp://")
+            const validCallbackUrl = callbackUrl.startsWith("http") || callbackUrl.startsWith("acme://")
               ? callbackUrl
-              : "yourapp://payment-callback";
+              : "acme://payment-success";
             const callbackUrlWithQuery = `${validCallbackUrl}?${queryParams}`;
 
             console.log("Redirecting to:", callbackUrlWithQuery);
