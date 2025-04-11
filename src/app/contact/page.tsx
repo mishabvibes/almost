@@ -114,7 +114,9 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-bold text-indigo-900 mb-1">Our Location</h3>
-                                            <p className="text-gray-600">123 Charity Lane, City, Country</p>
+                                            <p className="text-gray-600">Virippadam, Akode</p>
+                                            <p className="text-gray-600">Vazhakkad via, Malappuram</p>
+                                            <p className="text-gray-600">Kerala - 673640</p>
                                         </div>
                                     </div>
 
@@ -126,8 +128,8 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-bold text-indigo-900 mb-1">Email Us</h3>
-                                            <p className="text-gray-600">info@yourdomain.org</p>
-                                            <p className="text-gray-600">support@yourdomain.org</p>
+                                            <p className="text-gray-600">hello@aicamal.app</p>
+                                            <p className="text-gray-600">islamiccentre.akod@gmail.com</p>
                                         </div>
                                     </div>
 
@@ -139,8 +141,8 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-bold text-indigo-900 mb-1">Call Us</h3>
-                                            <p className="text-gray-600">+1 (123) 456-7890</p>
-                                            <p className="text-gray-600">+1 (123) 456-7891</p>
+                                            <p className="text-gray-600">+919745833399</p>
+                                            <p className="text-gray-600">+919747833399</p>
                                         </div>
                                     </div>
 
@@ -152,38 +154,69 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-bold text-indigo-900 mb-1">Office Hours</h3>
-                                            <p className="text-gray-600">Monday - Friday: 9:00 AM - 5:00 PM</p>
-                                            <p className="text-gray-600">Saturday: 10:00 AM - 2:00 PM</p>
+                                            <p className="text-gray-600">Monday - Friday: 9:00 AM - 08:00 PM</p>
+                                            <p className="text-gray-600">Saturday: 10:00 AM - 07:00 PM</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="mt-8">
-                                    <h3 className="text-lg font-bold text-indigo-900 mb-4">Follow Us</h3>
-                                    <div className="flex space-x-4">
-                                        <a href="#" className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors">
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
-                                            </svg>
-                                        </a>
-                                        <a href="#" className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors">
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M22.162 5.656a8.384 8.384 0 0 1-2.402.658A4.196 4.196 0 0 0 21.6 4c-.82.488-1.719.83-2.656 1.015a4.182 4.182 0 0 0-7.126 3.814 11.874 11.874 0 0 1-8.62-4.37 4.168 4.168 0 0 0-.566 2.103c0 1.45.738 2.731 1.86 3.481a4.168 4.168 0 0 1-1.894-.523v.052a4.185 4.185 0 0 0 3.355 4.101 4.21 4.21 0 0 1-1.89.072A4.185 4.185 0 0 0 7.97 16.65a8.394 8.394 0 0 1-6.191 1.732 11.83 11.83 0 0 0 6.41 1.88c7.693 0 11.9-6.373 11.9-11.9 0-.18-.005-.362-.013-.54a8.496 8.496 0 0 0 2.087-2.165z" />
-                                            </svg>
-                                        </a>
-                                        <a href="#" className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors">
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2z" />
-                                            </svg>
-                                        </a>
-                                        <a href="#" className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors">
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+  <h3 className="text-lg font-bold text-indigo-900 mb-4">Follow Us</h3>
+  <div className="flex space-x-4">
+    {/* Facebook Icon */}
+    <a
+      href="https://www.facebook.com/islamiccenterofficial/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors duration-300"
+      aria-label="Follow us on Facebook"
+    >
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+      </svg>
+    </a>
+
+    {/* Instagram Icon */}
+    <a
+      href="https://instagram.com/akodeislamiccentre"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors duration-300"
+      aria-label="Follow us on Instagram"
+    >
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2z" />
+      </svg>
+    </a>
+
+    {/* YouTube Icon */}
+    <a
+      href="https://www.youtube.com/@akodeislamiccentre/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors duration-300"
+      aria-label="Follow us on YouTube"
+    >
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+      </svg>
+    </a>
+
+    {/* Website Icon */}
+    <a
+      href="https://www.aicedu.in"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-indigo-100 p-3 rounded-full text-indigo-600 hover:bg-indigo-200 transition-colors duration-300"
+      aria-label="Visit our website"
+    >
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.22-1.79L9 14v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+      </svg>
+    </a>
+  </div>
+</div>
+</div>
                         </motion.div>
 
                         {/* Contact Form */}
@@ -207,6 +240,7 @@ export default function ContactPage() {
                                             value={form.name}
                                             onChange={handleChange}
                                             required
+                                            suppressHydrationWarning
                                         />
                                     </div>
 
@@ -222,6 +256,7 @@ export default function ContactPage() {
                                                 value={form.email}
                                                 onChange={handleChange}
                                                 required
+                                                suppressHydrationWarning
                                             />
                                         </div>
                                         <div>
@@ -234,6 +269,7 @@ export default function ContactPage() {
                                                 className="w-full p-3 border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                                                 value={form.phone}
                                                 onChange={handleChange}
+                                                suppressHydrationWarning
                                             />
                                         </div>
                                     </div>
@@ -243,15 +279,16 @@ export default function ContactPage() {
                                         <select
                                             id="subject"
                                             name="subject"
-                                            className="w-full p-3 border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all appearance-none bg-no-repeat bg-right"
+                                            className="w-full p-3 border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                                             style={{
-                                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366F1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366F1'%3E%3Cpath strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                                                 backgroundSize: "1.5rem",
                                                 paddingRight: "3rem"
                                             }}
                                             value={form.subject}
                                             onChange={handleChange}
                                             required
+                                            suppressHydrationWarning
                                         >
                                             <option value="">Select a subject</option>
                                             <option value="General Inquiry">General Inquiry</option>
@@ -282,6 +319,7 @@ export default function ContactPage() {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                                        suppressHydrationWarning
                                     >
                                         {isLoading ? (
                                             <span className="flex items-center justify-center">
@@ -291,8 +329,9 @@ export default function ContactPage() {
                                                 </svg>
                                                 Sending...
                                             </span>
-                                        ) : "Send Message"
-                                        }
+                                        ) : (
+                                            <span suppressHydrationWarning>Send Message</span>
+                                        )}
                                     </motion.button>
                                 </div>
                             </form>
